@@ -73,10 +73,10 @@ public class Persistence implements MyPersistence {
 		throw new UnsupportedOperationException();
 	}
 
-	public void saveUser(User user) {
+    public void saveUser(User user) throws PersistenceException {
 		if (!userPasswordMap.containsKey(user.getUserName())) createUser(user);
 		else {
-			usersList.replace(user.getUsername, user);
+            usersList.replace(user.getUserName(), user);
 		}
 		throw new UnsupportedOperationException();
 	}

@@ -20,7 +20,7 @@ public interface MyPersistence {
 
 	Post SelectPost();
 
-	void saveUser();
+    void saveUser(User user) throws PersistenceException;
 
     User selectUser(User user) throws PersistenceException;
 

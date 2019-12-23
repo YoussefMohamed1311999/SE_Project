@@ -1,13 +1,36 @@
 package Storage;
 
+import Content.Group;
+import Content.Post;
+import Content.User;
+
 import javax.activation.DataSource;
+import java.util.HashMap;
 
-import Content.*;
-
+//Singleton Persistence Layer Class
 public class Persistence implements MyPersistence {
 
 	private DataSource connection;
-	private MyPersistence instance;
+
+    //Singleton Instance
+    private static Persistence instance;
+    private HashMap<String, String> userPasswordMap = new HashMap<>();
+    private HashMap<String, User> usersList = new HashMap<>();
+
+    private Persistence() {
+    }
+
+    //Thread-Safe singleton instance getter
+    public Persistence getInstance() {
+        if (instance == null) {
+            synchronized (Persistence.class) {
+                if (instance == null) {
+                    instance = new Persistence();
+                }
+            }
+        }
+        return instance;
+    }
 
 	public void savePost() {
 		// TODO - implement Persistence.savePost
@@ -24,9 +47,10 @@ public class Persistence implements MyPersistence {
 		throw new UnsupportedOperationException();
 	}
 
-	public User selectUser() {
-		// TODO - implement Persistence.selectUser
-		throw new UnsupportedOperationException();
+    public User selectUser(String username, String password) throws PersistanceException {
+        if (!userPasswordMap.containsKey(username)) throw new UserDoesNotExistException();
+        if (!userPasswordMap.get(username).equals(password)) throw new UsernameAndPasswordDoesNotMatchException();
+        return usersList.get(username);
 	}
 
 
@@ -45,9 +69,18 @@ public class Persistence implements MyPersistence {
 		throw new UnsupportedOperationException();
 	}
 
-	public void createUser() {
-		// TODO - implement Persistence.createUser
-		throw new UnsupportedOperationException();
+    public void createUser(String username, String password) throws PersistanceException {
+        try {
+            selectUser(username, password);
+        } catch (UserDoesNotExistException e) {
+            userPasswordMap.put(username, password);
+            usersList.put(username, new User());
+            return;
+        } catch (UsernameAndPasswordDoesNotMatchException e) {
+            throw new UsernameAlreadyExists();
+        }
+
+        throw new UsernameAlreadyExists();
 	}
 
 	public void createGroup() {
@@ -59,10 +92,6 @@ public class Persistence implements MyPersistence {
 	public void createPost() {
 		// TODO - implement Persistence.createPost
 		throw new UnsupportedOperationException();
-	}
-
-	public MyPersistence getInstance() {
-		return this.instance;
 	}
 
 	public void saveHashtag() {

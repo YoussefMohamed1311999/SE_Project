@@ -2,9 +2,9 @@ package Content;
 
 public interface SCNClient {
 
-	void signup();
+    void signup(String username, String password);
 
-	void login();
+    void login(String username, String password);
 
 	void logout();
 

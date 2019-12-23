@@ -1,6 +1,8 @@
 package Storage;
 
-import Content.*;
+import Content.Group;
+import Content.Post;
+import Content.User;
 
 public interface MyPersistence {
 
@@ -10,7 +12,7 @@ public interface MyPersistence {
 
 	void saveUser();
 
-	User selectUser();
+	User selectUser(String username, String password) throws PersistanceException;
 
 	void saveGroup();
 
@@ -18,13 +20,11 @@ public interface MyPersistence {
 
 	void SQLpersistence();
 
-	void createUser();
+	void createUser(String username, String password) throws PersistanceException;
 
 	void createGroup();
 
 	void createPost();
-
-	MyPersistence getInstance();
 
 	void saveHashtag();
 

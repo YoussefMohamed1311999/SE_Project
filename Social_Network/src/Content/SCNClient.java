@@ -1,10 +1,12 @@
 package Content;
 
+import Storage.PersistenceException;
+
 public interface SCNClient {
 
     void signup(String username, String password);
 
-    void login(String username, String password);
+    void login(String username, String password) throws PersistenceException;
 
 	void logout();
 

@@ -12,7 +12,7 @@ public interface MyPersistence {
 
 	void saveUser();
 
-	User selectUser(String username, String password) throws PersistanceException;
+	User selectUser(String username, String password) throws PersistenceException;
 
 	void saveGroup();
 
@@ -20,7 +20,7 @@ public interface MyPersistence {
 
 	void SQLpersistence();
 
-	void createUser(String username, String password) throws PersistanceException;
+	void createUser(String username, String password) throws PersistenceException;
 
 	void createGroup();
 

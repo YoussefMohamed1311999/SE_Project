@@ -47,7 +47,7 @@ public class Persistence implements MyPersistence {
 		throw new UnsupportedOperationException();
 	}
 
-    public User selectUser(String username, String password) throws PersistanceException {
+    public User selectUser(String username, String password) throws PersistenceException {
         if (!userPasswordMap.containsKey(username)) throw new UserDoesNotExistException();
         if (!userPasswordMap.get(username).equals(password)) throw new UsernameAndPasswordDoesNotMatchException();
         return usersList.get(username);
@@ -69,7 +69,7 @@ public class Persistence implements MyPersistence {
 		throw new UnsupportedOperationException();
 	}
 
-    public void createUser(String username, String password) throws PersistanceException {
+    public void createUser(String username, String password) throws PersistenceException {
         try {
             selectUser(username, password);
         } catch (UserDoesNotExistException e) {

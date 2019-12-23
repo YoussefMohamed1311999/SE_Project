@@ -105,8 +105,9 @@ public class Persistence implements MyPersistence {
         try {
             selectUser(user);
         } catch (UserDoesNotExistException e) {
+            if (user.getPassword().length() < 8) throw new PasswordTooShortException();
             userPasswordMap.put(user.getUserName(), user.getPassword());
-            usersList.put(user.getUserName(), new User());
+            usersList.put(user.getUserName(), user);
             return;
         } catch (UsernameAndPasswordDoesNotMatchException e) {
             throw new UsernameAlreadyExists();

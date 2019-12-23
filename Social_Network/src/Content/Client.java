@@ -30,8 +30,9 @@ public class Client implements SCNClient {
     }
 
     @Override
-    public User login(User user) throws PersistenceException {
-        return persistence.selectUser(user);
+    public Boolean login(User user) throws PersistenceException {
+        persistence.selectUser(user);
+        return true;
     }
 
     @Override

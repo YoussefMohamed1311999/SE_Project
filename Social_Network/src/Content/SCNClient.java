@@ -6,7 +6,7 @@ public interface SCNClient {
 
     void signup(User user) throws PersistenceException;
 
-    User login(User user) throws PersistenceException;
+	Boolean login(User user) throws PersistenceException;
 
 	void logout();
 

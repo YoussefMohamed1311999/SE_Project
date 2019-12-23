@@ -4,9 +4,9 @@ import Storage.PersistenceException;
 
 public interface SCNClient {
 
-    void signup(String username, String password);
+    void signup(User user) throws PersistenceException;
 
-    void login(String username, String password) throws PersistenceException;
+    User login(User user) throws PersistenceException;
 
 	void logout();
 

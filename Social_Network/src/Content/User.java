@@ -1,6 +1,7 @@
 package Content;
 
 
+import java.util.ArrayList;
 
 public class User implements MyUser {
 
@@ -102,7 +103,22 @@ public class User implements MyUser {
 		throw new UnsupportedOperationException();
 	}
 
-	/**
+    @Override
+    public void sendFriendRequest(String username) {
+        Client.getInstance().persistence.addFriendRequest(username, this);
+    }
+
+    @Override
+    public void acceptFriendRequest(int requestNumber) {
+        Client.getInstance().persistence.acceptFriendRequest(this, requestNumber);
+    }
+
+    @Override
+    public ArrayList<User> showFriendRequests() {
+        return Client.getInstance().persistence.getFriendRequests(this);
+    }
+
+    /**
 	 * 
 	 * @param userName
 	 */

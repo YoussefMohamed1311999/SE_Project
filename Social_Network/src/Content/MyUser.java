@@ -1,5 +1,7 @@
 package Content;
 
+import java.util.ArrayList;
+
 public interface MyUser {
 
 	/**
@@ -16,7 +18,13 @@ public interface MyUser {
 	 */
 	User sendMessage(User userName);
 
-	public void findfriend(User userName);
+    void sendFriendRequest(String username);
+
+    void acceptFriendRequest(int requestNumber);
+
+    ArrayList<User> showFriendRequests();
+
+    void findfriend(User userName);
 	
 	/**
 	 * 

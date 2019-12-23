@@ -4,7 +4,17 @@ import Content.Group;
 import Content.Post;
 import Content.User;
 
+import java.util.ArrayList;
+
 public interface MyPersistence {
+
+    void addFriendRequest(String username, User requestingUser);
+
+    ArrayList<User> getFriendRequests(String username);
+
+    ArrayList<User> getFriendRequests(User user);
+
+    void acceptFriendRequest(User username, int requestNumber) throws IndexOutOfBoundsException;
 
 	void savePost();
 
@@ -12,7 +22,7 @@ public interface MyPersistence {
 
 	void saveUser();
 
-	User selectUser(String username, String password) throws PersistenceException;
+    User selectUser(User user) throws PersistenceException;
 
 	void saveGroup();
 
@@ -20,7 +30,7 @@ public interface MyPersistence {
 
 	void SQLpersistence();
 
-	void createUser(String username, String password) throws PersistenceException;
+    void createUser(User user) throws PersistenceException;
 
 	void createGroup();
 

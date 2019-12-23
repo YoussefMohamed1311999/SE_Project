@@ -5,6 +5,7 @@ import Content.Post;
 import Content.User;
 
 import javax.activation.DataSource;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 //Singleton Persistence Layer Class
@@ -16,6 +17,8 @@ public class Persistence implements MyPersistence {
     private static Persistence instance;
     private HashMap<String, String> userPasswordMap = new HashMap<>();
     private HashMap<String, User> usersList = new HashMap<>();
+    private HashMap<String, ArrayList<User>> userFriends = new HashMap<>();
+    private HashMap<String, ArrayList<User>> userFriendRequests = new HashMap<>();
 
     private Persistence() {
     }
@@ -32,7 +35,35 @@ public class Persistence implements MyPersistence {
         return instance;
     }
 
-	public void savePost() {
+    @Override
+    public void addFriendRequest(String username, User requestingUser) {
+        ArrayList<User> newList = userFriendRequests.get(username);
+        if (!newList.contains(requestingUser)) newList.add(requestingUser);
+        userFriendRequests.replace(username, newList);
+    }
+
+    @Override
+    public ArrayList<User> getFriendRequests(String username) {
+        return userFriendRequests.get(username);
+    }
+
+    @Override
+    public ArrayList<User> getFriendRequests(User user) {
+        return getFriendRequests(user.getUserName());
+    }
+
+    @Override
+    public void acceptFriendRequest(User user, int requestNumber) throws IndexOutOfBoundsException {
+        ArrayList<User> newList = userFriendRequests.get(user.getUserName());
+        User newFriend = newList.get(requestNumber);
+        newList.remove(requestNumber);
+        userFriendRequests.replace(user.getUserName(), newList);
+        ArrayList<User> friends = userFriends.get(user.getUserName());
+        friends.add(newFriend);
+        userFriends.put(user.getUserName(), friends);
+    }
+
+    public void savePost() {
 		// TODO - implement Persistence.savePost
 		throw new UnsupportedOperationException();
 	}
@@ -47,10 +78,11 @@ public class Persistence implements MyPersistence {
 		throw new UnsupportedOperationException();
 	}
 
-    public User selectUser(String username, String password) throws PersistenceException {
-        if (!userPasswordMap.containsKey(username)) throw new UserDoesNotExistException();
-        if (!userPasswordMap.get(username).equals(password)) throw new UsernameAndPasswordDoesNotMatchException();
-        return usersList.get(username);
+    public User selectUser(User user) throws PersistenceException {
+        if (!userPasswordMap.containsKey(user.getUserName())) throw new UserDoesNotExistException();
+        if (!userPasswordMap.get(user.getUserName()).equals(user.getPassword()))
+            throw new UsernameAndPasswordDoesNotMatchException();
+        return usersList.get(user.getUserName());
 	}
 
 
@@ -69,12 +101,12 @@ public class Persistence implements MyPersistence {
 		throw new UnsupportedOperationException();
 	}
 
-    public void createUser(String username, String password) throws PersistenceException {
+    public void createUser(User user) throws PersistenceException {
         try {
-            selectUser(username, password);
+            selectUser(user);
         } catch (UserDoesNotExistException e) {
-            userPasswordMap.put(username, password);
-            usersList.put(username, new User());
+            userPasswordMap.put(user.getUserName(), user.getPassword());
+            usersList.put(user.getUserName(), new User());
             return;
         } catch (UsernameAndPasswordDoesNotMatchException e) {
             throw new UsernameAlreadyExists();

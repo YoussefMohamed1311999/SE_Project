@@ -6,7 +6,7 @@ import Storage.PersistenceException;
 //Singleton Control Class
 public class Client implements SCNClient {
 
-    private Persistence persistence = Persistence.getInstance();
+    Persistence persistence = Persistence.getInstance();
 
     //Singleton Class Instance
     private static Client singletonInstance = null;
@@ -25,22 +25,13 @@ public class Client implements SCNClient {
     }
 
     @Override
-    public void signup(String username, String password) {
-        try {
-            persistence.createUser(username, password);
-        } catch (PersistenceException e) {
-            System.out.println("username not available");
-        } finally {
-            System.out.println("user created successfully");
-        }
+    public void signup(User user) throws PersistenceException {
+        persistence.createUser(user);
     }
 
     @Override
-    public void login(String username, String password) throws PersistenceException {
-        User user = persistence.selectUser(username, password);
-
-        //TODO return user?
-        //return user;
+    public User login(User user) throws PersistenceException {
+        return persistence.selectUser(user);
     }
 
     @Override

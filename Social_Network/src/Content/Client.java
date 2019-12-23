@@ -1,5 +1,8 @@
 package Content;
 
+import Storage.PersistanceException;
+import Storage.Persistence;
+
 //Singleton Control Class
 public class Client implements SCNClient {
 
@@ -21,7 +24,14 @@ public class Client implements SCNClient {
 
     @Override
     public void signup(String username, String password) {
-
+        Persistence persistence = Persistence.getInstance();
+        try {
+            persistence.createUser(username, password);
+        } catch (PersistanceException e) {
+            System.out.println("username not available");
+        } finally {
+            System.out.println("user created successfully");
+        }
     }
 
     @Override

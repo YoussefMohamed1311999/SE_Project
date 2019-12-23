@@ -21,7 +21,7 @@ public class Persistence implements MyPersistence {
     }
 
     //Thread-Safe singleton instance getter
-    public Persistence getInstance() {
+    public static Persistence getInstance() {
         if (instance == null) {
             synchronized (Persistence.class) {
                 if (instance == null) {

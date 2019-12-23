@@ -85,8 +85,11 @@ public class Client implements SCNClient {
     }
 
     @Override
-    public void upgradeRegistration() {
-
+    public void upgradeRegistration(User user) {
+    	user.setPremium(true);
+    	PremiumUser prUser = new User();
+    	prUser = user;
+    	persistence.saveUser(prUser);
     }
 
     @Override

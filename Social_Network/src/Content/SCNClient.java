@@ -36,7 +36,7 @@ public interface SCNClient {
 	 */
 	User sendMessage(User userName);
 
-	void upgradeRegistration();
+	void upgradeRegistration(User user) throws PersistenceException;
 
 	Notification nnotify();
 

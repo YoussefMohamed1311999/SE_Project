@@ -1,9 +1,18 @@
 package Content;
 
+import java.util.ArrayList;
+
 public class PremiumUser extends User {
 
 	private int adCount;
-	private AD adList;
+	private ArrayList<AD> adList;
+
+	public PremiumUser(User user) {
+		super(user);
+		this.setPremium(true);
+		adCount = 0;
+		adList = new ArrayList<>();
+	}
 
 	public void postAD() {
 		// TODO - implement PremiumUser.postAD
@@ -22,7 +31,7 @@ public class PremiumUser extends User {
 		this.adCount = adCount;
 	}
 
-	public AD getAdList() {
+	public ArrayList<AD> getAdList() {
 		return this.adList;
 	}
 

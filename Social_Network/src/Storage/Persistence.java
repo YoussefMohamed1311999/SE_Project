@@ -38,12 +38,14 @@ public class Persistence implements MyPersistence {
     @Override
     public void addFriendRequest(String username, User requestingUser) {
         ArrayList<User> newList = userFriendRequests.get(username);
+        if (newList == null) newList = new ArrayList<>();
         if (!newList.contains(requestingUser)) newList.add(requestingUser);
-        userFriendRequests.replace(username, newList);
+        userFriendRequests.put(username, newList);
     }
 
     @Override
     public ArrayList<User> getFriendRequests(String username) {
+        userFriendRequests.computeIfAbsent(username, k -> new ArrayList<>());
         return userFriendRequests.get(username);
     }
 
@@ -59,8 +61,10 @@ public class Persistence implements MyPersistence {
         newList.remove(requestNumber);
         userFriendRequests.replace(user.getUserName(), newList);
         ArrayList<User> friends = userFriends.get(user.getUserName());
+        if (friends == null) friends = new ArrayList<>();
         friends.add(newFriend);
         userFriends.put(user.getUserName(), friends);
+        int sz = userFriendRequests.get(user.getUserName()).size();
     }
 
     public void savePost() {
@@ -113,6 +117,7 @@ public class Persistence implements MyPersistence {
             usersList.put(user.getUserName(), user);
             return;
         } catch (UsernameAndPasswordDoesNotMatchException e) {
+            //A user having same username but different password already exists
             throw new UsernameAlreadyExists();
         }
 

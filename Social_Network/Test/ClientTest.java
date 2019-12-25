@@ -1,22 +1,24 @@
 import Content.Client;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import Content.User;
+import Storage.PasswordTooShortException;
+import Storage.PersistenceException;
+import Storage.UsernameAlreadyExists;
+import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+@Test
+public class ClientTest {
 
-public class ClientTest extends Arquillian {
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(Client.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+    private Client client = Client.getInstance();
+
+    @Test(expectedExceptions = PasswordTooShortException.class)
+    public void testSignupShortPassword() throws PersistenceException {
+        client.signup(new User("username1", "1234"));
     }
 
-    @org.testng.annotations.Test
-    public void testSignup() {
-        
+    @Test(expectedExceptions = UsernameAlreadyExists.class)
+    public void testSignupUserExists() throws PersistenceException {
+        client.signup(new User("username1", "12345678"));
+        client.signup(new User("username1", "123456789"));
     }
+
 }

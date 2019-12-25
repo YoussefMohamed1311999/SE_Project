@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class User implements MyUser {
 
 	private String username;
-
 	private String name;
 	private String gender;
 	private String password;
@@ -15,7 +14,24 @@ public class User implements MyUser {
 	private Boolean premium;
 	private String profilePicture;
 	private int postidList;
-	
+
+	public User(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
+
+	public User(User user) {
+		this.username = user.username;
+		this.name = user.name;
+		this.gender = user.gender;
+		this.password = user.password;
+		this.telephoneNumber = user.telephoneNumber;
+		this.email = user.email;
+		this.premium = user.premium;
+		this.profilePicture = user.profilePicture;
+		this.postidList = user.postidList;
+	}
+
 	public void signup() {
 		// TODO - implement User.signup
 		throw new UnsupportedOperationException();

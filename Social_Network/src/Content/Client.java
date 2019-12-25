@@ -86,10 +86,9 @@ public class Client implements SCNClient {
     }
 
     @Override
-    public void upgradeRegistration(User user) {
+    public void upgradeRegistration(User user) throws PersistenceException {
     	user.setPremium(true);
-    	PremiumUser prUser = new User();
-    	prUser = user;
+        PremiumUser prUser = new PremiumUser(user);
     	persistence.saveUser(prUser);
     }
 
